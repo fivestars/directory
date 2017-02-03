@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+  <span class="brand">FiveStars Directory</span>
+{% endblock %}
+
+{% block javascript %}
+  {% load staticfiles %}
+  <script src="{% static 'angular/angular.min.js' %}"></script>
+  <script src="{% static 'directory/login.js' %}"></script>
+{% endblock %}

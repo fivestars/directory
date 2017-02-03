@@ -1,0 +1,86 @@
+{% load staticfiles %}
+<html>
+<head>
+    <title>FiveStars Directory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap-responsive.min.css' %}" rel="stylesheet">
+    <link href="{% static 'directory/style.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="{% static 'bootstrap/js/html5shiv.js' %}"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+
+            {% block navbar %}
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="brand" href="{% url 'directory:index' %}">FiveStars Directory</a>
+
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Departments
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'directory:all_depts' %}">All</a></li>
+                                {% for dept in depts %}
+                                    <li>
+                                        <a href="{% url 'directory:search_by_dept' %}?q={{ dept.id }}">{{ dept.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Locations
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'directory:all_locations' %}">All</a></li>
+                                {% for location in locations %}
+                                    <li>
+                                        <a href="{% url 'directory:search_by_location' %}?q={{ location.id }}">{{ location.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'directory:pets' %}">Pets</a></li>
+                        <li><a href="{% url 'directory:birthdays' %}">Upcoming Birthdays</a></li>
+                    </ul>
+                    <form class="navbar-form pull-right" action="{% url 'directory:search_employees' %}" method="get">
+                        <input class="span2" type="text" name="q" value="{{ input }}">
+                        <button type="submit" class="btn">Search</button>
+                    </form>
+                </div>
+            {% endblock %}
+
+        </div>
+    </div>
+</div>
+
+<div class="container content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+{% block javascript %}
+{% endblock %}
+
+</body>
+</html>

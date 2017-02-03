@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>{{ heading }}</h1>
+
+    {% for user in users %}
+        {% cycle "<div class='row'>" "" "" "" %}
+
+          {% if user.owner %}
+            <div class="span3 user-panel
+                {% if home_page and user.owner.is_new %}new-user-panel{% endif %}">
+                <a href="{% url 'directory:view_pet' user.id %}" title="{{ user.name }}">
+                    {% if user.image_url %}
+                        <img width="150" alt="{{ user.name }}" src="{{ user.image_url }}">
+                    {% else %}
+                        <img width="150" alt="{{ user.name }}"
+                             src="https://pbs.twimg.com/profile_images/378800000193583606/ef10a86f064eab6a11e4adfa5f67189d.png">
+                    {% endif %}
+                </a>
+                <p class="name">
+                    <a href="{% url 'directory:view_pet' user.id %}" title="{{ user.name }}">{{ user.name }}
+                      {{ user.owner.last_name }}</a>
+                </p>
+                <p>
+                    {% if not location_page %}
+                        <a href="{% url 'directory:search_by_location' %}?q={{ user.owner.location.id }}">{{ user.owner.location.name }}</a>
+                    {% endif %}
+                </p>
+            </div>
+
+          {% else %}
+            <div class="span3 user-panel
+                {% if home_page and user.is_new %}new-user-panel{% endif %}
+                {% if birthdays_page and user.is_birthday_today %}birthday-user-panel{% endif %}">
+                <a href="{% url 'directory:view_employee' user.id %}"
+                   title="{{ user.first_name }} {{ user.last_name }}">
+                    {% if user.image_url %}
+                        <img width="150" alt="{{ user.first_name }} {{ user.last_name }}"
+                             src="{{ user.image_url }}">
+                    {% else %}
+                        <img width="150" alt="{{ user.first_name }} {{ user.last_name }}"
+                             src="https://pbs.twimg.com/profile_images/378800000193583606/ef10a86f064eab6a11e4adfa5f67189d.png">
+                    {% endif %}
+                </a>
+                <p class="name">
+                    <a href="{% url 'directory:view_employee' user.id %}"
+                       title="{{ user.first_name }} {{ user.last_name }}">{{ user.first_name }}
+                        {{ user.last_name }}</a>
+                </p>
+                {% if home_page %}
+                    <p class="start-date">
+                        Since {{ user.start_date }}
+                    </p>
+                {% endif %}
+                {% if birthdays_page %}
+                    <p class="start-date">
+                        {{ user.birthday | date:"N j" }}
+                    </p>
+                {% endif %}
+                <p>
+                    {% if not dept_page %}
+                        <a href="{% url 'directory:search_by_dept' %}?q={{ user.dept.id }}">{{ user.dept.name }}</a>
+                    {% endif %}
+                    {% if not dept_page and not location_page %},{% endif %}
+                    {% if not location_page %}
+                        <a href="{% url 'directory:search_by_location' %}?q={{ user.location.id }}">{{ user.location.name }}</a>
+                    {% endif %}
+                </p>
+            </div>
+          {% endif %}
+
+        {% cycle "" "" "" "</div>" %}
+        {% if forloop.last and not forloop.counter|divisibleby:4 %}</div>{% endif %}
+    {% endfor %}
+
+    {% if users.paginator.num_pages > 1 %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if users.has_previous %}
+                <a href="?page={{ users.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ users.number }} of {{ users.paginator.num_pages }}
+            </span>
+
+            {% if users.has_next %}
+                <a href="?page={{ users.next_page_number }}{% if query %}&q={{ query }}{% endif %}">next</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+
+{% endblock %}

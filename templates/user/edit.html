@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'directory:edit_employee' user.id %}" method="post" role="edit form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            <label for="name">Name</label>
+            {{ form.first_name.errors }}
+            {{ form.last_name.errors }}
+            <input type="text" class="form-control" name="first_name" maxlength="32"
+                   value="{{ user.first_name }}">
+            <input type="text" class="form-control" name="last_name" maxlength="32"
+                   value="{{ user.last_name }}">
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            {{ form.title.errors }}
+            <input type="text" class="form-control" name="title" maxlength="64"
+                   value="{{ user.title }}">
+        </div>
+        <div class="form-group">
+            <label for="dept">Department</label>
+            {{ form.dept.errors }}
+            <select name="dept" class="form-control">
+                {% for dept in depts %}
+                    {% if dept.id == user.dept.id %}
+                        <option value="{{ dept.id }}" selected>{{ dept.name }}</option>
+                    {% else %}
+                        <option value="{{ dept.id }}">{{ dept.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            {{ form.location.errors }}
+            <select name="location" class="form-control">
+                {% for location in locations %}
+                    {% if location.id == user.location.id %}
+                        <option value="{{ location.id }}" selected>{{ location.name }}</option>
+                    {% else %}
+                        <option value="{{ location.id }}">{{ location.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            {{ form.email.errors }}
+            <input type="email" class="form-control" name="email" maxlength="64"
+                   value="{{ user.email }}">
+        </div>
+        <div class="form-group">
+            <label for="phone_num">Phone Number</label>
+            {{ form.phone_num.errors }}
+            <input type="tel" class="form-control" name="phone_num" maxlength="12"
+                   value="{{ user.phone_num }}">
+        </div>
+        <div class="form-group">
+            <label for="spirit_animal">Spirit Animal</label>
+            {{ form.spirit_animal.errors }}
+            <input type="text" class="form-control" name="spirit_animal" maxlength="32"
+                   value="{{ user.spirit_animal | default_if_none:"" }}">
+        </div>
+        <div class="form-group">
+            <label for="buddy">Buddy</label>
+            {{ form.buddy.errors }}
+            <input type="text" class="form-control" name="buddy" maxlength="32"
+                   value="{{ user.buddy | default_if_none:"" }}">
+        </div>
+        <button type="submit" class="btn btn-default">Save</button>
+    </form>
+
+{% endblock %}

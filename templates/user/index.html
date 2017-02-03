@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row user">
+
+        <div class="span4">
+          <div class="primary-image">
+            {% if user.image_url %}
+              <img width="150" src="{{ user.image_url }}"
+                   alt="{{ user.first_name }} {{ user.last_name }}"
+                   title="{{ user.first_name }} {{ user.last_name }}">
+            {% else %}
+              <img width="150" alt="{{ user.first_name }} {{ user.last_name }}"
+                   title="{{ user.first_name }} {{ user.last_name }}"
+                   src="https://pbs.twimg.com/profile_images/378800000193583606/ef10a86f064eab6a11e4adfa5f67189d.png">
+            {% endif %}
+          </div>
+          {% if pets %}
+            {% for pet in pets %}
+              <div class="secondary-image">
+                <a href="{% url 'directory:view_pet' pet.id %}" title="{{ pet.name }}">
+                  {% if pet.image_url %}
+                    <img width="150" alt="{{ pet.name }}" src="{{ pet.image_url }}">
+                  {% else %}
+                    <img width="150" alt="{{ pet.name }}"
+                         src="https://pbs.twimg.com/profile_images/378800000193583606/ef10a86f064eab6a11e4adfa5f67189d.png">
+                  {% endif %}
+                </a>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="span3">
+            <div>{{ user.first_name }} {{ user.last_name }}</div>
+            <div>{{ user.title }}</div>
+            <div>
+                <a href="{% url 'directory:search_by_dept' %}?q={{ user.dept.id }}">{{ user.dept.name }}</a>
+            </div>
+            <div>
+                <a href="{% url 'directory:search_by_location' %}?q={{ user.location.id }}">{{ user.location.name }}</a>
+            </div>
+            <div><a href="mailto:{{ user.email }}">{{ user.email }}</a></div>
+            <div><a href="tel:{{ user.phone_num }}">{{ user.phone_num }}</a></div>
+        </div>
+        <div class="span5">
+            <div>Start Date: {{ user.start_date | date:"n/j/Y" }}</div>
+            <div>
+                Birthday:
+                {% if user.birthday %}
+                    <a href="http://www.who2.com/birthday/{{ user.birthday | date:"F" }}/{{ user.birthday | date:"j" }}">{{ user.birthday | date:"n/j" }}</a>
+                {% else %}
+                    2/31
+                {% endif %}
+            </div>
+            <div>
+                Spirit Animal:
+
+                {% if user.spirit_animal %}
+                    <a href="https://en.wikipedia.org/w/index.php?search={{ user.spirit_animal }}">{{ user.spirit_animal }}</a>
+                {% else %}
+                    <a href="mailto:{{ user.email }}?subject=Spirit%20animal%20suggestion">Please suggest one for {{ user.first_name }}</a>
+                {% endif %}
+            </div>
+
+            {% if user.buddy %}
+                <div>Buddy: {{ user.buddy }}</div>
+            {% endif %}
+
+            {% if can_edit %}
+                <form action="{% url 'directory:edit_employee' user.id %}" method="get">
+                    <button type="submit" class="btn">Edit</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

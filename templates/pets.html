@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% for pet in pets %}
+        {% cycle "<div class='row'>" "" "" "" %}
+            <div class="span3 user-panel">
+                <a href="{% url 'directory:view_pet' pet.id %}">
+                    {% if pet.image_url %}
+                        <img width="150" src="{{ pet.image_url }}">
+                    {% else %}
+                        <img width="150" src="https://pbs.twimg.com/profile_images/378800000193583606/ef10a86f064eab6a11e4adfa5f67189d.png">
+                    {% endif %}
+                </a>
+                <p class="name">
+                    <a href="{% url 'directory:view_pet' pet.id %}">{{ pet.name }}</a>
+                </p>
+            </div>
+        {% cycle "" "" "" "</div>" %}
+        {% if forloop.last and not forloop.counter|divisibleby:4 %}</div>{% endif %}
+    {% endfor %}
+
+{% endblock %}

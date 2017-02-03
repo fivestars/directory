@@ -1,0 +1,25 @@
+{% extends "base_ng.html" %}
+
+{% block content %}
+
+  <p>Please login with a FiveStars employee account.</p>
+
+  <div ng-app="login" ng-controller="LoginController">
+    <div ng-show="showLoginError" ng-cloak>
+      <p><strong>{% verbatim %}{{ loginError }}{% endverbatim %}</strong></p>
+    </div>
+
+    <form name="loginForm" novalidate ng-submit="login()">
+      <div class="form-group">
+        <input type="email" class="form-control" placeholder="Email" autocomplete="off" required
+               ng-model="email">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" placeholder="Password" required
+               ng-model="password">
+      </div>
+      <button type="submit" class="btn" ng-disabled="loginForm.$invalid">Sign In</button>
+    </form>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row user">
+
+        <div class="span4">
+          <div class="primary-image">
+            {% if pet.image_url %}
+              <img width="150" src="{{ pet.image_url }}" alt="{{ pet.name }}" title="{{ pet.name }}">
+            {% else %}
+              <img width="150" alt="{{ pet.name }}" title="{{ pet.name }}"
+                   src="https://pbs.twimg.com/profile_images/378800000193583606/ef10a86f064eab6a11e4adfa5f67189d.png">
+            {% endif %}
+          </div>
+          <div class="secondary-image">
+            <a href="{% url 'directory:view_employee' pet.owner.id %}"
+               title="{{ pet.owner.first_name }} {{ pet.owner.last_name }}">
+              {% if pet.owner.image_url %}
+                <img width="150" alt="{{ pet.owner.first_name }} {{ pet.owner.last_name }}"
+                     src="{{ pet.owner.image_url }}">
+              {% else %}
+                <img width="150" alt="{{ pet.owner.first_name }} {{ pet.owner.last_name }}"
+                     src="https://pbs.twimg.com/profile_images/378800000193583606/ef10a86f064eab6a11e4adfa5f67189d.png">
+              {% endif %}
+            </a>
+          </div>
+        </div>
+        <div class="span3">
+            <div>{{ pet.name }}</div>
+            <div>
+                <a href="{% url 'directory:view_employee' pet.owner.id %}">{{ pet.owner.first_name }}
+                    {{ pet.owner.last_name }}</a>
+            </div>
+        </div>
+        <div class="span5">
+            <div>Favorite Hobbies: {{ pet.hobbies }}</div>
+            <div>Least Favorite Things: {{ pet.dislikes }}</div>
+
+            {% if can_edit %}
+                <form action="{% url 'directory:edit_pet' pet.id %}" method="get">
+                    <button type="submit" class="btn">Edit</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

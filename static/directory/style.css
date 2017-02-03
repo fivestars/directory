@@ -1,0 +1,68 @@
+body {
+    padding-bottom: 40px;
+}
+
+.content {
+    padding-top: 60px;
+}
+
+.user-panel {
+    margin-bottom: 20px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.new-user-panel {
+    background-color: rgba(114, 192, 67, 0.08);
+}
+
+.birthday-user-panel {
+    background-image: url("birthday-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.name {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.start-date {
+    margin-bottom: 0px;
+}
+
+.user {
+    font-size: 16px;
+    line-height: 27px;
+    margin-top: 30px;
+}
+
+.primary-image {
+    text-align: center;
+}
+
+.secondary-image {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.user .btn {
+    font-size: 17px;
+    margin-top: 35px;
+}
+
+@media (max-width: 979px) {
+    .content {
+        padding-top: 0px;
+    }
+
+    .primary-image {
+        margin-bottom: 20px;
+    }
+
+    .secondary-image {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
